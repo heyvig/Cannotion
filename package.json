@@ -1,0 +1,22 @@
+{
+  "name": "cannotion",
+  "version": "1.0.0",
+  "description": "A tool which automatically integrates the Canvas calander into Notion.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mwalmer/Cannotion.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mwalmer/Cannotion/issues"
+  },
+  "homepage": "https://github.com/mwalmer/Cannotion#readme",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
+}
