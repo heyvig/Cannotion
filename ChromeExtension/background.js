@@ -25,7 +25,7 @@ chrome.webNavigation.onCommitted.addListener((details) =>
     }
 });
 
-setInterval(getFile, 30000); //30000 -> 30 mins
+setInterval(getFile, 1800000); //1800000 -> 30 minutes
 
 let startDate = new Date();
 let elapsedTime = 0;
