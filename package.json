@@ -1,6 +1,7 @@
 {
   "name": "cannotion",
   "version": "1.0.0",
+  "type": "module",
   "description": "A tool which automatically integrates the Canvas calander into Notion.",
   "main": "index.js",
   "scripts": {
@@ -18,5 +19,8 @@
   "homepage": "https://github.com/mwalmer/Cannotion#readme",
   "devDependencies": {
     "jest": "^27.5.1"
+  },
+  "dependencies": {
+    "@notionhq/client": "^1.0.4"
   }
 }

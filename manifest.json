@@ -1,6 +1,7 @@
 {
 	"name": "Cannotion",
 	"description": "Creating GUI for Cannotion",
+  "type": "module",
 	"version": "1.0",
 	"manifest_version": 3,
 	"options_page": "./public/options.html",
