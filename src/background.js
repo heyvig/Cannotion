@@ -14,7 +14,7 @@ function getFile(){
 chrome.webNavigation.onCommitted.addListener((details) =>
 {
   if (["reload", "link", "typed", "generated"].includes(details.transitionType) &&
-        details.url === "https://ufl.instructure.com/") {
+        (details.url.includes("https://ufl.instructure.com"))) {
           console.log('webNav');
           getFile();
 
@@ -33,3 +33,5 @@ let elapsedTime = 0;
 const focus = function(){
   startDate = new Date();
 }
+
+//console.log(details.url.includes("https://ufl.instructure.com"))
