@@ -12,34 +12,49 @@
         //Defining the CalendarEvent class
         class CalendarEvent{
             title = "";
+            
+            //Four digit format
             year = 0;
+            
+            //Two digit format, so January 7th is 01 for the month and 07 for the day
             month = 0;
             day = 0;
+            
+            //24 hour format to avoid handling of AM/PM
             startHour = 0;
             startMinute = 0;
             endHour = 0;
             endMinute = 0;
+            
             class = "";
             description = "";
-            //Link is doable for assignments with modifications and zoom as well
             link = "";
+
             //AKA Office Hours, Class, Assignment, Exam, Quiz, etc.
             type = "";
+
+            //Additional backend info for differentiating events
+            uid = "";
+
             constructor(){
             
             }
+
             reset(){
                 this.title = "";
                 this.class = "";
                 this.type = "";
                 this.description = "";
                 this.link = "";
+                this.uid = "";
                 this.year = 0;
                 this.month = 0;
                 this.day = 0;
 
-                this.hour = 0;
-                this.minute = 0;
+                this.startHour = 0;
+                this.startMinute = 0;
+                this.endHour = 0;
+                this.endMinute = 0;
             }
         }
 
@@ -61,11 +76,14 @@
                         if(checkNext){
                             if(appendURL){
                                 //Appending the 2nd line of the link
-                                newEvent.link = newEvent.link + line.substring(12, line.length - 1)
+                                newEvent.link = newEvent.link + line.substring(1, line.length - 1)
 
                                 //Splicing the link together to form a link to the assignment rather than the calendar event
                                 if(line.includes("#assignment_")){
-                                    newEvent.link = line.substring(4, 32) + "courses/" + line.substring(65, 70) + "/assignments/" + line.substring(65, 70)
+                                    newEvent.link = line.substring(4, 32) + "courses/" + line.substring(65, 71) + "/assignments/" + line.substring(102, line.length - 1)
+                                }
+                                else if(line.includes("#calendar_event")){
+                                    newEvent.link = line.substring(4, 32) + "courses/" + line.substring(65, 71) + "/calendar_events/" + line.substring(106, line.length - 1)
                                 }
 
                                 appendURL = false
@@ -81,13 +99,13 @@
                                     
                                     //Determines the type of event based of intormation in the title and updates the corresponding variable
                                     if(newEvent.description.includes("[Click here to join Zoom Meeting:")){
-                                        if(newEvent.title.toLowerCase.includes("office hours")){
+                                        if(newEvent.title.toLowerCase().includes("office hours")){
                                             newEvent.type = "Office Hours"
                                         }
-                                        else if(newEvent.title.toLowerCase.includes("discussion")){
+                                        else if(newEvent.title.toLowerCase().includes("discussion")){
                                             newEvent.type = "Discussion"
                                         }
-                                        else if(newEvent.title.toLowerCase.includes("lab")){
+                                        else if(newEvent.title.toLowerCase().includes("lab")){
                                             newEvent.type = "Lab"
                                         }
                                         else{
@@ -97,14 +115,17 @@
                                         //Updating the link variable with the respective zoom link
                                         newEvent.link = newEvent.description.substring(49, newEvent.description.length - 2)
                                     }
-                                    else if(newEvent.description.toLowerCase.includes("exam") ||
-                                            newEvent.description.toLowerCase.includes("test") ||
-                                            newEvent.description.toLowerCase.includes("midterm") ||
-                                            newEvent.description.toLowerCase.includes("final")){
+                                    else if(newEvent.description.toLowerCase().includes("exam") ||
+                                            newEvent.description.toLowerCase().includes("test") ||
+                                            newEvent.description.toLowerCase().includes("midterm") ||
+                                            newEvent.description.toLowerCase().includes("final")){
                                         newEvent.type = "Exam"
                                     }
-                                    else if(newEvent.description.toLowerCase.includes("quiz")){
+                                    else if(newEvent.description.toLowerCase().includes("quiz")){
                                         newEvent.type = "Quiz"
+                                    }
+                                    else if(newEvent.uid.toLowerCase().includes("calendar-event")){
+                                        newEvent.type = "Event"
                                     }
 //***********************Are there any other types of events?
                                     else{
@@ -123,29 +144,55 @@
                             }
                         }
 
+                        if(line.includes("UID:")){
+                            newEvent.uid = line.substring(4, line.length - 1)
+                        }
+
                         //COME BACK TO DATE BC IT VARIES PER EVENT AND HAS TIME ZONE SHIFT
                         if(line.includes("DTSTART;VALUE=DATE:") || line.includes("DTSTART:")){
                             var date = ""
                             if(line.includes("DTSTART;VALUE=DATE:")){
                                 date = line.substring(19, line.length - 1)
+                                
+                                //Catch case for 11:59 PM due time, since it is
+                                //displayed as 000000 rather than 235900
+                                if(line.substring(28, line.length - 1) == "000000"){
+                                    startHour = 23
+                                    startMinute = 59
+                                }
+                                startHour = parseInt(line.substring(18, 20)) - 4
+                                startMinute = parseInt(line.substring(20, 22)) - 4
                             }
                             else if(line.includes("DTSTART:")){
                                 date = line.substring(8, line.length - 1)
-                                startHour = line.substring(18, 20)
-                                startMinute = line.substring(20, 22)
+                                startHour = parseInt(line.substring(18, 20))
+                                startMinute = parseInt(line.substring(20, 22))
                             }
 
-                            year = date.substring(0, 4)
-                            month = date.substring(4, 6)
-                            day = date.substring(6, 8)
-
-                            console.log(date)
+                            year = parseInt(date.substring(0, 4))
+                            month = parseInt(date.substring(4, 6))
+                            day = parseInt(date.substring(6, 8))
                         }
 
-                        //COME BACK TO DATE BC IT VARIES PER EVENT AND HAS TIME ZONE SHIFT
-                        if(line.includes("DTSTART:")){
-                            var date = line.substring(8, line.length - 1)
-                            console.log(date)
+                        if(line.includes("DTEND;VALUE=DATE:") || line.includes("DTEND:")){
+                            var date = ""
+                            if(line.includes("DTEND;VALUE=DATE:")){
+                                date = line.substring(19, line.length - 1)
+                                
+                                //Catch case for 11:59 PM due time, since it is
+                                //displayed as 000000 rather than 235900
+                                if(line.substring(28, line.length - 1) == "000000"){
+                                    endHour = 23
+                                    endMinute = 59
+                                }
+                                endHour = parseInt(line.substring(18, 20)) - 4
+                                endMinute = parseInt(line.substring(20, 22)) - 4
+                            }
+                            else if(line.includes("DTEND:")){
+                                date = line.substring(8, line.length - 1)
+                                endHour = parseInt(line.substring(18, 20))
+                                endMinute = parseInt(line.substring(20, 22))
+                            }
                         }
 
                         if(line.includes("DESCRIPTION:")){
