@@ -1,4 +1,4 @@
-export const small_file = `BEGIN:VCALENDAR
+const small_file = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:icalendar-ruby
 CALSCALE:GREGORIAN
@@ -48,3 +48,5 @@ X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
  Meeting:971 9168 3079</a></p>
 END:VEVENT
 END:VCALENDAR`
+
+module.exports = small_file;

@@ -1,6 +1,3 @@
-import {small_file} from "../tests/2Events.js";
-import {large_file} from "../tests/20Events.js";
-
 //Defining the CalendarEvent class
 class CalendarEvent{
     title = "";
@@ -53,7 +50,7 @@ class CalendarEvent{
 //Create container for events
 let events_arr = [];
 // const input = document.querySelector('input[type="file"]')
-export function parseFile(file){
+function parseFile(file){
     // console.log(input.files);
     //Create new calendar event
     let newEvent = new CalendarEvent();
@@ -253,8 +250,9 @@ export function parseFile(file){
         console.log(element.description);
         console.log("Date: " + element.month + "/" + element.day + "/" + element.year);
         console.log("From: " + element.startHour + ":" + element.startMinute + " to " + element.endHour + ":" + element.endMinute);
-        console.log("\n");6
+        console.log("\n");
     }
+    return events_arr[0].title;
 }
 
-parseFile(large_file);
+module.exports = parseFile;
