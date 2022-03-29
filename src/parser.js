@@ -252,7 +252,8 @@ function parseFile(file){
         console.log("From: " + element.startHour + ":" + element.startMinute + " to " + element.endHour + ":" + element.endMinute);
         console.log("\n");
     }
-    return events_arr[0].title;
+    if(events_arr.length > 0)
+        return events_arr;
 }
 
 module.exports = parseFile;
