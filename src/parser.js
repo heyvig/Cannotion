@@ -139,16 +139,33 @@ function parseFile(file){
                 newEvent.uid = line.substring(4, line.length - 1);
             }
 
-            //COME BACK TO DATE BC IT VARIES PER EVENT AND HAS TIME ZONE SHIFT
             if(line.includes("DTSTART;VALUE=DATE:") || line.includes("DTSTART:")){
                 var date = "";
                 if(line.includes("DTSTART;VALUE=DATE:")){
-                    date = line.substring(19, line.length - 1);
-                    //Catch case for 11:59 PM due time, since it is
-                    //displayed as 000000 rather than 235900
-                    if(date.substring(9, line.length - 1) == "000000"){
-                        newEvent.startHour = 23;
-                        newEvent.startMinute = 59;
+                    date = line.substring(19, line.length);
+                }
+                else if(line.includes("DTSTART:")){
+                    date = line.substring(8, line.length);
+                }
+
+                newEvent.year = parseInt(date.substring(0, 4));
+                newEvent.month = parseInt(date.substring(4, 6));
+                newEvent.day = parseInt(date.substring(6, 8));
+                //Catch case for 11:59 PM due time, since it is
+                //displayed as 000000 rather than 235900
+                if(date.substring(9, line.length) == "000000"){
+                    newEvent.startHour = 23;
+                    newEvent.startMinute = 59;
+                }
+                else{
+                    if(newEvent.month < 3 || (newEvent.month == 3 && newEvent.day < 13)){
+                        if(parseInt(date.substring(9, 11)) < 4){
+                            newEvent.startHour = parseInt(date.substring(9, 11)) + 19;
+                        }
+                        else{
+                            newEvent.startHour = parseInt(date.substring(9, 11)) - 5;
+                        }
+                        newEvent.startMinute = parseInt(date.substring(11, 13));
                     }
                     else{
                         if(parseInt(date.substring(9, 11)) < 4){
@@ -160,31 +177,30 @@ function parseFile(file){
                         newEvent.startMinute = parseInt(date.substring(11, 13));
                     }
                 }
-                else if(line.includes("DTSTART:")){
-                    date = line.substring(8, line.length);
-                    if(parseInt(date.substring(9, 11)) < 4){
-                        newEvent.startHour = parseInt(date.substring(9, 11)) + 20;
-                    }
-                    else{
-                        newEvent.startHour = parseInt(date.substring(9, 11)) - 4;
-                    }
-                    newEvent.startMinute = parseInt(date.substring(11, 13));
-                }
-
-                newEvent.year = parseInt(date.substring(0, 4));
-                newEvent.month = parseInt(date.substring(4, 6));
-                newEvent.day = parseInt(date.substring(6, 8));
             }
 
             if(line.includes("DTEND;VALUE=DATE:") || line.includes("DTEND:")){
                 var date = ""
                 if(line.includes("DTEND;VALUE=DATE:")){
-                    date = line.substring(17, line.length - 1);
-                    //Catch case for 11:59 PM due time, since it is
-                    //displayed as 000000 rather than 235900
-                    if(date.substring(9, line.length - 1) == "000000"){
-                        newEvent.endHour = 23;
-                        newEvent.endMinute = 59;
+                    date = line.substring(17, line.length);
+                }
+                else if(line.includes("DTEND:")){
+                    date = line.substring(6, line.length);
+                }
+                //Catch case for 11:59 PM due time, since it is
+                //displayed as 000000 rather than 235900
+                if(date.substring(9, line.length) == "000000"){
+                    newEvent.endHour = 23;
+                    newEvent.endMinute = 59;
+                }
+                else{
+                    if(newEvent.month < 3 || (newEvent.month == 3 && newEvent.day < 13)){
+                        if(parseInt(date.substring(9, 11)) < 4){
+                            newEvent.endHour = parseInt(date.substring(9, 11)) + 19;
+                        }
+                        else{
+                            newEvent.endHour = (parseInt(date.substring(9, 11)) - 5);
+                        }
                     }
                     else{
                         if(parseInt(date.substring(9, 11)) < 4){
@@ -193,18 +209,6 @@ function parseFile(file){
                         else{
                             newEvent.endHour = (parseInt(date.substring(9, 11)) - 4);
                         }
-
-                        newEvent.endMinute = parseInt(date.substring(11, 13));
-                    }
-
-                }
-                else if(line.includes("DTEND:")){
-                    date = line.substring(6, line.length - 1);
-                    if(parseInt(date.substring(9, 11)) < 4){
-                        newEvent.endHour = parseInt(date.substring(9, 11)) + 20;
-                    }
-                    else{
-                        newEvent.endHour = (parseInt(date.substring(9, 11)) - 4);
                     }
 
                     newEvent.endMinute = parseInt(date.substring(11, 13));
@@ -252,7 +256,8 @@ function parseFile(file){
         console.log("From: " + element.startHour + ":" + element.startMinute + " to " + element.endHour + ":" + element.endMinute);
         console.log("\n");
     }
-    return events_arr[0].title;
+    if(events_arr.length > 0)
+        return events_arr;
 }
 
 module.exports = parseFile;
