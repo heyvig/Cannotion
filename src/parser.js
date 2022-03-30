@@ -66,8 +66,7 @@ function parseFile(file){
             if(checkNext){
                 if(appendURL){
                     //Appending the 2nd line of the link
-                    newEvent.link = newEvent.link + line.substring(1, line.length - 1);
-                    console.log(newEvent.link);
+                    newEvent.link = newEvent.link + line.substring(1, line.length);
                     //Splicing the link together to form a link to the assignment rather than the calendar event
                     if(newEvent.link.includes("#assignment_")){
                         newEvent.link = newEvent.link.substring(0, 28) + "courses/" + newEvent.link.substring(61, 67) + "/assignments/" + newEvent.link.substring(99, 106);
@@ -82,7 +81,7 @@ function parseFile(file){
                 else if(appendSummary){
                     if(!line.includes("URL:")){
                         //Continuously appending the next line of the summary until reaching the next attribute
-                        newEvent.title = newEvent.title + line.substring(1, line.length - 1);
+                        newEvent.title = newEvent.title + line.substring(1, line.length);
                     }
                     else{
                         //Updates the class (Ex. CEN3031) variable in the object
@@ -128,7 +127,7 @@ function parseFile(file){
                 }
                 else if(!(line.includes("SEQUENCE:") || line.includes("LOCATION:") || line.includes("ALT-DESC"))){
                     //Continuously appending the next line of the description until reaching the next attribute
-                    newEvent.description = newEvent.description + line.substring(1, line.length - 1);
+                    newEvent.description = newEvent.description + line.substring(1, line.length);
                 }
                 else{
                     checkNext = false;
@@ -136,7 +135,7 @@ function parseFile(file){
             }
 
             if(line.includes("UID:")){
-                newEvent.uid = line.substring(4, line.length - 1);
+                newEvent.uid = line.substring(4, line.length);
             }
 
             if(line.includes("DTSTART;VALUE=DATE:") || line.includes("DTSTART:")){
@@ -216,12 +215,12 @@ function parseFile(file){
             }
 
             if(line.includes("DESCRIPTION:")){
-                newEvent.description = line.substring(12, line.length - 1);
+                newEvent.description = line.substring(12, line.length);
                 checkNext = true;
             }
 
             if(line.includes("SUMMARY:")){
-                newEvent.title = line.substring(8, line.length - 1);
+                newEvent.title = line.substring(8, line.length);
                 appendSummary = true;
                 checkNext = true;
             }
@@ -231,7 +230,7 @@ function parseFile(file){
                     newEvent.link = newEvent.description.substring(49, newEvent.description.length - 1);
                 }
                 else{
-                    newEvent.link = line.substring(4, newEvent.description.length - 1);
+                    newEvent.link = line.substring(4, newEvent.description.length);
                     appendURL = true;
                     checkNext = true;
                 }
@@ -248,6 +247,7 @@ function parseFile(file){
             return;
         }
     })
+    /*//COMMENTED OUT TO PREVENT EXCESSIVE PRINTING
     for(const element of events_arr){
         console.log(element.title + " - " + element.class + " - " + element.type);
         console.log(element.link);
@@ -255,7 +255,7 @@ function parseFile(file){
         console.log("Date: " + element.month + "/" + element.day + "/" + element.year);
         console.log("From: " + element.startHour + ":" + element.startMinute + " to " + element.endHour + ":" + element.endMinute);
         console.log("\n");
-    }
+    }*/
     if(events_arr.length > 0)
         return events_arr;
 }
