@@ -2,7 +2,7 @@ import {small_file} from "../tests/2Events.js";
 import {large_file} from "../tests/20Events.js";
 
 //Defining the CalendarEvent class
-class CalendarEvent{
+export class CalendarEvent{
     title = "";
     
     //Four digit format
@@ -51,7 +51,7 @@ class CalendarEvent{
 }
 
 //Create container for events
-let events_arr = [];
+export let events_arr = [];
 // const input = document.querySelector('input[type="file"]')
 export function parseFile(file){
     // console.log(input.files);
