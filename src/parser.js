@@ -1,5 +1,5 @@
 //Defining the CalendarEvent class
-export class CalendarEvent{
+class CalendarEvent{
     title = "";
     
     //Four digit format
@@ -48,7 +48,7 @@ export class CalendarEvent{
 }
 
 //Create container for events
-export let events_arr = [];
+let events_arr = [];
 // const input = document.querySelector('input[type="file"]')
 function parseFile(file){
     // console.log(input.files);
