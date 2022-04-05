@@ -3,7 +3,6 @@
 	"description": "Creating GUI for Cannotion",
 	"version": "1.0",
 	"manifest_version": 3,
-	"options_page": "./public/options.html",
 	"background": {
     "service_worker": "./src/background.js"
   	},
