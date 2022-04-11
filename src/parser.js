@@ -332,15 +332,22 @@ function parseAtomFile(file){
 
                         if(newEvent.type == "Office Hours" || newEvent.type == "Discussion" || newEvent.type == "Lab" || newEvent.type == "Class" || newEvent.type == "Event"){
                             newEvent.month = line.substring(line.indexOf(">") + 1, line.indexOf(">") + 4);
-                            newEvent.day = parseInt(line.substring(line.indexOf(">") + 4, line.indexOf(">") + 6));
+                            newEvent.day = parseInt(line.substring(line.indexOf(">") + 5, line.indexOf(">") + 7));
                         }
                         else{
                             newEvent.month = line.substring(line.indexOf(">") + 6, line.indexOf(">") + 9);
-                            newEvent.day = parseInt(line.substring(line.indexOf(">") + 9, line.indexOf(">") + 11));
+                            newEvent.day = parseInt(line.substring(line.indexOf(">") + 10, line.indexOf(">") + 12));
                         }
 
                         if(line.substring(0, 41).includes(" at ") || line.substring(0, 41).includes(" by ")){
-                            var time = line.substring(line.indexOf(" at ") + 4, line.indexOf(" at ") + 11);
+                            var time;
+                            if(line.substring(0, 41).includes(" at ")){
+                                time = line.substring(line.indexOf(" at ") + 4, line.indexOf(" at ") + 11);
+                            }
+                            else{
+                                time = line.substring(line.indexOf(" by ") + 4, line.indexOf(" by ") + 11);
+                            }
+
                             if(time.includes(":")){
                                 if(time.includes("am")){
                                     if(time.includes(" ")){
@@ -350,6 +357,10 @@ function parseAtomFile(file){
                                     else{
                                         newEvent.hour = parseInt(time.substring(0, 2));
                                         newEvent.minute = parseInt(time.substring(3, 5));
+                                    }
+                                    
+                                    if(newEvent.hour == 12){
+                                        newEvent.hour = 0;
                                     }
                                 }
                                 else if(time.includes("pm")){
@@ -372,6 +383,10 @@ function parseAtomFile(file){
                                     }
                                     else{
                                         newEvent.hour = parseInt(time.substring(0, 2));
+                                    }
+
+                                    if(newEvent.hour == 12){
+                                        newEvent.hour = 0;
                                     }
                                 }
                                 else if(time.includes("pm")){
@@ -402,12 +417,17 @@ function parseAtomFile(file){
             console.log("Error loading page");
         }
 
+
+        //console.log(events_arr[events_arr.length-5].title + " | " + events_arr[events_arr.length-5].class + " | " + events_arr[events_arr.length-5].type);
+        //console.log(events_arr[events_arr.length-5].link);
+        //console.log("Date: " + events_arr[events_arr.length-5].month + " " + events_arr[events_arr.length-5].day + ", " + events_arr[events_arr.length-5].year);
+        //console.log("From: " + events_arr[events_arr.length-5].hour + ":" + events_arr[events_arr.length-5].minute);
         //COMMENTED OUT TO PREVENT EXCESSIVE PRINTING
         for(const element of events_arr){
             console.log(element.title + " | " + element.class + " | " + element.type);
             console.log(element.link);
             console.log("Date: " + element.month + " " + element.day + ", " + element.year);
-            console.log("From: " + element.startHour + ":" + element.startMinute + " to " + element.endHour + ":" + element.endMinute);
+            console.log("From: " + element.hour + ":" + element.minute);
             console.log("\n");
         }
     });
