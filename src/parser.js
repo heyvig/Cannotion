@@ -47,7 +47,7 @@ class CalendarEvent{
 }
 
 // const input = document.querySelector('input[type="file"]')
-function parseFile(file){
+/*function parseFile(file){
     //Create container for events
     let events_arr = [];
     // console.log(input.files);
@@ -246,7 +246,7 @@ function parseFile(file){
             return;
         }
     })
-    /*//COMMENTED OUT TO PREVENT EXCESSIVE PRINTING
+    //COMMENTED OUT TO PREVENT EXCESSIVE PRINTING
     for(const element of events_arr){
         console.log(element.title + " - " + element.class + " - " + element.type);
         console.log(element.link);
@@ -254,29 +254,23 @@ function parseFile(file){
         console.log("Date: " + element.month + "/" + element.day + "/" + element.year);
         console.log("From: " + element.startHour + ":" + element.startMinute + " to " + element.endHour + ":" + element.endMinute);
         console.log("\n");
-    }*/
+    }
     if(events_arr.length > 0)
         return events_arr;
-}
+}*/
 
 // const input = document.querySelector('input[type="file"]')
 function parseAtomFile(file){
+    //Create container for events
+    let events_arr = [];
     request("https://ufl.instructure.com/feeds/calendars/user_BkaffhCJl6Sh6F30F7EJ0RvsAWA8arHizxJ4xMus.atom", function(error, response, html){
         if(!error && response.statusCode == 200){
             const $ = cheerio.load(html);
-            //Create container for events
-            let events_arr = [];
-            // console.log(input.files);
             //Create new calendar event
             let newEvent = new CalendarEvent();
 
-            //Flag variables to allow for multi-line parts to be concatenated
-            var checkNext = false;
-            var appendURL = false;
-            var appendSummary = false;
-
             const lines = html.split('\n').map(function(line){
-                if(!(line.includes("END:VCALENDAR") || line == "")){
+                if(!(line.includes("</feed>"))){
             
                     if(line.includes("<title>")){
                         if(line.includes("Calendar Event:")){
@@ -316,16 +310,13 @@ function parseAtomFile(file){
                     if(line.includes("<link") && !line.includes("rel=\"self\"")){
                         if(!(newEvent.type == "Office Hours" || newEvent.type == "Discussion" || newEvent.type == "Lab" || newEvent.type == "Class")){
                             newEvent.link = line.substring(line.indexOf("http://"), line.lastIndexOf("\"/>"));
-
-                            if(newEvent.type == "Assignment" || newEvent.type == "Quiz" || newEvent.type == "Exam"){
-                                newEvent.link = newEvent.link.substring(0, 28) + "courses/" + newEvent.link.substring(61, 67) + "/assignments/" + newEvent.link.substring(99, 106);
-                            }
-                            else if(newEvent.type == "Event"){
-                                newEvent.link = newEvent.link.substring(0, 28) + "courses/" + newEvent.link.substring(61, 67) + "/calendar_events/" + newEvent.link.substring(103, 110);
+                            
+                            if(newEvent.type == "Event"){
+                                newEvent.link = "https" + newEvent.link.substring(4, newEvent.link.indexOf("instructure.com/") + 16) + "courses/" + newEvent.link.substring(35, 41) + "/calendar_events/" + newEvent.link.substring(89, 96);
                             }
                         }
                     }
-
+                    
                     if(line.includes("<name>")){
                         newEvent.class = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
                     }
@@ -339,7 +330,7 @@ function parseAtomFile(file){
                             }
                         }
 
-                        if(newEvent.type == "Office Hours" || newEvent.type == "Discussion" || newEvent.type == "Lab" || newEvent.type == "Class"){
+                        if(newEvent.type == "Office Hours" || newEvent.type == "Discussion" || newEvent.type == "Lab" || newEvent.type == "Class" || newEvent.type == "Event"){
                             newEvent.month = line.substring(line.indexOf(">") + 1, line.indexOf(">") + 4);
                             newEvent.day = parseInt(line.substring(line.indexOf(">") + 4, line.indexOf(">") + 6));
                         }
@@ -411,17 +402,16 @@ function parseAtomFile(file){
             console.log("Error loading page");
         }
 
+        //COMMENTED OUT TO PREVENT EXCESSIVE PRINTING
+        for(const element of events_arr){
+            console.log(element.title + " | " + element.class + " | " + element.type);
+            console.log(element.link);
+            console.log("Date: " + element.month + " " + element.day + ", " + element.year);
+            console.log("From: " + element.startHour + ":" + element.startMinute + " to " + element.endHour + ":" + element.endMinute);
+            console.log("\n");
+        }
     });
     
-    /*//COMMENTED OUT TO PREVENT EXCESSIVE PRINTING
-    for(const element of events_arr){
-        console.log(element.title + " - " + element.class + " - " + element.type);
-        console.log(element.link);
-        console.log(element.description);
-        console.log("Date: " + element.month + "/" + element.day + "/" + element.year);
-        console.log("From: " + element.startHour + ":" + element.startMinute + " to " + element.endHour + ":" + element.endMinute);
-        console.log("\n");
-    }*/
     /*if(events_arr.length > 0)
         return events_arr;*/
 }
@@ -429,4 +419,4 @@ function parseAtomFile(file){
 parseAtomFile();
 
 module.exports = parseAtomFile;
-module.exports = parseFile;
+//module.exports = parseFile;
