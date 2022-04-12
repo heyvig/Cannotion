@@ -1,5 +1,4 @@
 const request = require('request');
-const cheerio = require('cheerio');
 
 //Defining the CalendarEvent class
 class CalendarEvent{
@@ -265,7 +264,6 @@ function parseAtomFile(file){
     let events_arr = [];
     request("https://ufl.instructure.com/feeds/calendars/user_BkaffhCJl6Sh6F30F7EJ0RvsAWA8arHizxJ4xMus.atom", function(error, response, html){
         if(!error && response.statusCode == 200){
-            const $ = cheerio.load(html);
             //Create new calendar event
             let newEvent = new CalendarEvent();
 
