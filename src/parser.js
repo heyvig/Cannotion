@@ -1,4 +1,4 @@
-import request from 'request';
+const request = require('request');
 
 //Defining the CalendarEvent class
 class CalendarEvent{
@@ -207,20 +207,20 @@ function parseAtomFile(file){
         //console.log("Date: " + events_arr[events_arr.length-5].month + " " + events_arr[events_arr.length-5].day + ", " + events_arr[events_arr.length-5].year);
         //console.log("From: " + events_arr[events_arr.length-5].hour + ":" + events_arr[events_arr.length-5].minute);
         //COMMENTED OUT TO PREVENT EXCESSIVE PRINTING
-        for(const element of events_arr){
-            console.log(element.title + " | " + element.class + " | " + element.type);
-            console.log(element.link);
-            console.log("Date: " + element.month + " " + element.day + ", " + element.year);
-            console.log("From: " + element.hour + ":" + element.minute);
-            console.log("\n");
-        }
+        // for(const element of events_arr){
+        //     console.log(element.title + " | " + element.class + " | " + element.type);
+        //     console.log(element.link);
+        //     console.log("Date: " + element.month + " " + element.day + ", " + element.year);
+        //     console.log("From: " + element.hour + ":" + element.minute);
+        //     console.log("\n");
+        // }
     });
     
-    /*if(events_arr.length > 0)
-        return events_arr;*/
+    if(events_arr.length > 0)
+        return events_arr;
 }
 
-parseAtomFile();
+// parseAtomFile('a');
 
-export default parseAtomFile;
-//module.exports = parseFile;
+// export default parseAtomFile;
+module.exports = parseAtomFile;
