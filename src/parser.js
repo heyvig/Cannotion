@@ -45,10 +45,15 @@ class CalendarEvent{
     }
 }
 
-function parseAtomFile(file){
+function parseAtomFile(link){
     //Create container for events
     let events_arr = [];
-    request("https://ufl.instructure.com/feeds/calendars/user_BkaffhCJl6Sh6F30F7EJ0RvsAWA8arHizxJ4xMus.atom", function(error, response, html){
+
+    //Correcting link file ending
+    var newLink = link.substring(0, link.length - 3);
+    newLink = newLink.concat("atom");
+
+    request(newLink, function(error, response, html){
         if(!error && response.statusCode == 200){
             //Create new calendar event
             let newEvent = new CalendarEvent();
@@ -220,7 +225,7 @@ function parseAtomFile(file){
         return events_arr;
 }
 
-// parseAtomFile('a');
+//parseAtomFile('https://ufl.instructure.com/feeds/calendars/user_BkaffhCJl6Sh6F30F7EJ0RvsAWA8arHizxJ4xMus.ics');
 
 // export default parseAtomFile;
 module.exports = parseAtomFile;
