@@ -1,6 +1,8 @@
 const selected = document.querySelector('#selected');
 const options = document.querySelectorAll('.option');
-const token = document.querySelector('.token');
+const token = document.querySelector('#token');
+const databaseId = document.querySelector('#databaseId');
+const link = document.querySelector('#link');
 
 
 // token
@@ -11,6 +13,25 @@ token.addEventListener('change', (event) => {
     selected.innerHTML = `token = ` + result['token'];
   });
 });
+
+// token
+databaseId.addEventListener('change', (event) => {
+  chrome.storage.sync.set({'databaseId': event.target.value});
+
+  chrome.storage.sync.get('databaseId', function(result) {
+    selected.innerHTML = `databaseId = ` + result['databaseId'];
+  });
+});
+
+// token
+link.addEventListener('change', (event) => {
+  chrome.storage.sync.set({'link': event.target.value});
+
+  chrome.storage.sync.get('link', function(result) {
+    selected.innerHTML = `link = ` + result['link'];
+  });
+});
+
 
 
 // check boxes
