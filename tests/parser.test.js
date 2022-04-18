@@ -1,6 +1,5 @@
 const { parseFile, parseLink } = require('../src/parser.js');
 const empty = require('./0Events');
-const dst = require('./2DuplicateEventDaylightSavings');
 const large_file = require('./200Events');
 const test_file = require('./test_file')
 // let events_arr = [];
@@ -11,20 +10,12 @@ test('test empty calendar', () => {
     expect(parseFile(empty)).toBe();
 });
 
-// //Tests that Daylight Savings Time is implemented properly
-// test('test Daylight Savings', () => {
-//     let events_arr = parseFile(dst);
-//     expect(events_arr[0].startHour).toBe(9);
-//     expect(events_arr[1].startHour).toBe(10);
-//     events_arr.length = 0;
-// });
-
-// //Tests that the zoom link is correctly parsed
-// test('test zoom link', () => {
-//     events_arr = parseFile(large_file);
-//     expect(events_arr[1].link).toBe('https://ufl.zoom.us/j/97191683079?pwd=UGJmQzdoeCtXR3psbWNFLzVmekpsZz09');
-//     events_arr.length = 0;
-// });
+//Tests that the zoom link is correctly parsed
+test('test zoom link', () => {
+    events_arr = parseFile(test_file);
+    expect(events_arr[3].link).toBe('https://ufl.zoom.us/j/97191683079?pwd=UGJmQzdoeCtXR3psbWNFLzVmekpsZz09');
+    events_arr.length = 0;
+});
 
 // //Tests that the correct type is being parsed
 // test('test correct event type assignment', () => {
@@ -50,7 +41,7 @@ test('test empty calendar', () => {
 test('test number of events', () => {
     events_arr = parseFile(test_file);
     expect(events_arr.length).toBe(160);
-    // events_arr.length = 0;
+    events_arr.length = 0;
 });
 
 

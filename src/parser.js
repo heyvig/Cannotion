@@ -108,7 +108,8 @@ function parse(dataString, events_arr){
 
             if(line.includes("<content type")){
                 if(line.includes("zoom.us/")){
-                    newEvent.link = line.substring(line.indexOf("https://"), line.indexOf("https://") + 33);
+                    var subLine = line.substring(line.indexOf("https://"), line.indexOf("target="));
+                    newEvent.link = subLine.substring(0, subLine.indexOf("\""));
                     
                     if(newEvent.type == "Event"){
                         newEvent.type = "Class";
