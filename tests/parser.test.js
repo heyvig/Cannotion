@@ -1,9 +1,7 @@
 const { parseFile, parseLink } = require('../src/parser.js');
 const empty = require('./0Events');
-const large_file = require('./200Events');
 const test_file = require('./test_file')
 // let events_arr = [];
-//const large_file = require('./20Events');
 
 //Tests that nothing is returned on parsing an "empty" calendar
 test('test empty calendar', () => {
@@ -17,25 +15,31 @@ test('test zoom link', () => {
     events_arr.length = 0;
 });
 
-// //Tests that the correct type is being parsed
-// test('test correct event type assignment', () => {
-//     events_arr = parseFile(large_file);
-//     var i = 0;
-//     expect(events_arr[0].type).toBe('Quiz');
-//     expect(events_arr[1].type).toBe('Office Hours');
-//     expect(events_arr[2].type).toBe('Office Hours');
-//     expect(events_arr[3].type).toBe('Office Hours');
-//     expect(events_arr[4].type).toBe('Assignment');
-//     events_arr.length = 0;
-// });
+//Tests that the correct type is being parsed
+test('test correct event type assignment', () => {
+    events_arr = parseFile(test_file);
+    expect(events_arr[0].type).toBe('Assignment');
+    expect(events_arr[1].type).toBe('Assignment');
+    expect(events_arr[2].type).toBe('Assignment');
+    expect(events_arr[3].type).toBe('Office Hours');
+    expect(events_arr[4].type).toBe('Office Hours');
+    expect(events_arr[5].type).toBe('Assignment');
+    expect(events_arr[6].type).toBe('Office Hours');
+    expect(events_arr[7].type).toBe('Event');
 
-// //Tests that 11:59 exception is implemented properly
-// test('test 11:59 assignment', () => {
-//     events_arr = parseFile(large_file);
-//     expect(events_arr[19].startHour).toBe(23);
-//     expect(events_arr[19].startMinute).toBe(59);
-//     events_arr.length = 0;
-// });
+    events_arr.length = 0;
+});
+
+//Tests that 11:59 is implemented properly with regards to date and 24-hr time format
+test('test 11:59 assignment', () => {
+    events_arr = parseFile(test_file);
+    expect(events_arr[0].hour).toBe(23);
+    expect(events_arr[0].minute).toBe(59);
+    expect(events_arr[0].day).toBe(18);
+    expect(events_arr[0].month).toBe("Mar");
+
+    events_arr.length = 0;
+});
 
 //Tests that the number of events is properly parsed
 test('test number of events', () => {
@@ -43,10 +47,3 @@ test('test number of events', () => {
     expect(events_arr.length).toBe(160);
     events_arr.length = 0;
 });
-
-
-// test('test link', () => {
-//     events_arr = parseLink('https://ufl.instructure.com/feeds/calendars/user_BkaffhCJl6Sh6F30F7EJ0RvsAWA8arHizxJ4xMus.atom');
-//     expect(events_arr).toBe(200);
-//     // events_arr.length = 0;
-// });
