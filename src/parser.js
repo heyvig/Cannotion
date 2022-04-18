@@ -1,3 +1,7 @@
+// THIS ONLY WORKS WHEN USING NODE ON THIS FILE
+// import request from "request";
+
+// THIS ONLY WORKS WHEN RUNNING TESTS
 const request = require('request');
 
 //Defining the CalendarEvent class
@@ -46,12 +50,13 @@ class CalendarEvent{
 }
 
 function parse(dataString, events_arr){
+
     //Create new calendar event
     let newEvent = new CalendarEvent();
-
+    
     const lines = dataString.split('\n').map(function(line){
         if(!(line.includes("</feed>"))){
-    
+            
             if(line.includes("<title>")){
                 if(line.includes("Calendar Event:")){
                     if(line.toLowerCase().includes("office hours")){
@@ -202,13 +207,14 @@ function parseFile(file){
 
     events_arrF = parse(file, events_arrF);
 
-    for(const element of events_arrF){
-        console.log(element.title + " | " + element.class + " | " + element.type);
-        console.log(element.link);
-        console.log("Date: " + element.month + " " + element.day + ", " + element.year);
-        console.log("From: " + element.hour + ":" + element.minute);
-        console.log("\n");
-    }
+    // for(const element of events_arrF){
+    //     console.log(element.title + " | " + element.class + " | " + element.type);
+    //     console.log(element.link);
+    //     console.log("Date: " + element.month + " " + element.day + ", " + element.year);
+    //     console.log("From: " + element.hour + ":" + element.minute);
+    //     console.log("\n");
+    // }
+    // console.log(events_arrF);
 
     if(events_arrF.length > 0)
         return events_arrF;
@@ -217,34 +223,38 @@ function parseFile(file){
 function parseLink(link){
     //Create container for events
     let events_arrL = [];
-
+    
     //Correcting link file ending
-    var newLink = link.substring(0, link.length - 3);
-    newLink = newLink.concat("atom");
-    request(newLink, function(error, response, html){
+    // var newLink = link.substring(0, link.length - 3);
+    // newLink = newLink.concat(".atom");
+    // console.log(newLink);
+    request(link, function(error, response, html){
         if(!error && response.statusCode == 200){
-            parse(html, events_arrL);
+            return parse(html, events_arrL);
+            // console.log(events_arrL);
         }
         else{
             console.log("Error loading page");
         }
-        console.log(events_arrL[0].title);
+        // console.log(events_arrL[0].title);
     });
-    
-    //for(element of events_arrL){
-    //    console.log(element.title + " | " + element.class + " | " + element.type);
-    //    console.log(element.link);
-    //    console.log("Date: " + element.month + " " + element.day + ", " + element.year);
-    //    console.log("From: " + element.hour + ":" + element.minute);
-    //    console.log("\n");
-    //}
-    
+
+    // for(element of events_arrL){
+    //     console.log(element.title + " | " + element.class + " | " + element.type);
+    //     console.log(element.link);
+    //     console.log("Date: " + element.month + " " + element.day + ", " + element.year);
+    //     console.log("From: " + element.hour + ":" + element.minute);
+    //     console.log("\n");
+    // }
+
     if(events_arrL.length > 0)
         return events_arrL;
 }
 
 //parseLink('https://ufl.instructure.com/feeds/calendars/user_BkaffhCJl6Sh6F30F7EJ0RvsAWA8arHizxJ4xMus.ics');
 
-// export default parseAtomFile;
-module.exports = parseFile;
-module.exports = parseLink;
+// COMMENT THESE OUT WHEN USING NODE
+module.exports = { parseFile, parseLink };
+
+// let events_arr = parseFile(test_file);
+// console.log(events_arr.length);
