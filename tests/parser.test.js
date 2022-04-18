@@ -49,7 +49,7 @@ test('test empty calendar', () => {
 //Tests that the number of events is properly parsed
 test('test number of events', () => {
     events_arr = parseFile(test_file);
-    expect(events_arr.length).toBe(200);
+    expect(events_arr.length).toBe(160);
     // events_arr.length = 0;
 });
 
