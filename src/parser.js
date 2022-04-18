@@ -185,8 +185,33 @@ function parse(dataString, events_arr){
                     }
                 }
             }
-
+            
             if(line.includes("</entry>")){
+                if(newEvent.month == "Jan"){
+                    newEvent.month = 1;
+                } else if(newEvent.month == "Feb"){
+                    newEvent.month = 2;
+                }else if(newEvent.month == "Mar"){
+                    newEvent.month = 3;
+                }else if(newEvent.month == "Apr"){
+                    newEvent.month = 4;
+                }else if(newEvent.month == "May"){
+                    newEvent.month = 5;
+                }else if(newEvent.month == "Jun"){
+                    newEvent.month = 6;
+                }else if(newEvent.month == "Jul"){
+                    newEvent.month = 7;
+                }else if(newEvent.month == "Aug"){
+                    newEvent.month = 8;
+                }else if(newEvent.month == "Sep"){
+                    newEvent.month = 9;
+                }else if(newEvent.month == "Oct"){
+                    newEvent.month = 10;
+                }else if(newEvent.month == "Nov"){
+                    newEvent.month = 11;
+                }else if(newEvent.month == "Dec"){
+                    newEvent.month = 12;
+                }
                 //PUSH AKA COPY current event (NOT A POINTER) into collection
                 events_arr.push(Object.assign({}, newEvent));
                 //console.log(newEvent.title + " - " + newEvent.class);
