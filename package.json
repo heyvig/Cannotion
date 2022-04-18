@@ -2,6 +2,7 @@
   "name": "cannotion",
   "version": "1.0.0",
   "type": "module",
+  "main": "index.js",
   "description": "A tool which automatically integrates the Canvas calander into Notion.",
   "scripts": {
     "test": "jest"

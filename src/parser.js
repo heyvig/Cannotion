@@ -2,10 +2,10 @@
 // import request from "request";
 
 // THIS ONLY WORKS WHEN RUNNING TESTS
-const request = require('request');
+//const request = require('request');
 
 //Defining the CalendarEvent class
-class CalendarEvent{
+export class CalendarEvent{
     title = "";
     
     //Four digit format
@@ -201,7 +201,7 @@ function parse(dataString, events_arr){
     return events_arr;
 }
 
-function parseFile(file){
+export function parseFile(file){
     //Create container for events
     let events_arrF = [];
 
@@ -220,7 +220,7 @@ function parseFile(file){
         return events_arrF;
 }
 
-function parseLink(link){
+/*function parseLink(link){
     //Create container for events
     let events_arrL = [];
     
@@ -249,12 +249,12 @@ function parseLink(link){
 
     if(events_arrL.length > 0)
         return events_arrL;
-}
+}*/
 
 //parseLink('https://ufl.instructure.com/feeds/calendars/user_BkaffhCJl6Sh6F30F7EJ0RvsAWA8arHizxJ4xMus.ics');
 
 // COMMENT THESE OUT WHEN USING NODE
-module.exports = { parseFile, parseLink };
+//module.exports = { parseFile};
 
 // let events_arr = parseFile(test_file);
 // console.log(events_arr.length);

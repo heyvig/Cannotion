@@ -1,4 +1,4 @@
-const test_file = `<?xml version="1.0" encoding="UTF-8"?>
+export const test_file = `<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>https://ufl.instructure.com/calendar?include_contexts=user_1033665</id>
   <title>Richard Alvero Calendar Feed</title>
@@ -2427,4 +2427,4 @@ const test_file = `<?xml version="1.0" encoding="UTF-8"?>
   </entry>
 </feed>`
 
-module.exports = test_file;
+//module.exports = test_file;

@@ -1,8 +1,8 @@
 import { Client } from "@notionhq/client"
 import { secret, database_id} from "./secrets.js";
 //import parser details
-import {CalendarEvent} from './parser.js';
-//import {CalendarEvent} from './parser';
+import {CalendarEvent, parseFile} from './parser.js';
+import {test_file} from '../tests/test_file.js';
 
 const notion = new Client({ auth: secret });
 
@@ -87,6 +87,8 @@ function addAllEvents(events_arr){
 );
 }
 
+let event_arrF = parseFile(test_file);
+
 //running code
 let ev1 = new CalendarEvent();
 let ev2 = new CalendarEvent();
@@ -139,11 +141,11 @@ ev3.endMinute = 0;
 let events_arr = [ev1, ev2, ev3];
 
 let result1;
-chrome.storage.sync.get("option1", function(result) {
-  selected.innerHTML = `${"option1"} = ` + result[`${"option1"}`];
-});
+//chrome.storage.sync.get("option1", function(result) {
+//  selected.innerHTML = `${"option1"} = ` + result[`${"option1"}`];
+//});
 
 
 
-addAllEvents(events_arr);
+addAllEvents(event_arrF);
 
