@@ -11,7 +11,35 @@ test('test empty calendar', () => {
 //Tests that the zoom link is correctly parsed
 test('test zoom link', () => {
     events_arr = parseFile(test_file);
+    expect(events_arr[7].link).toBe('https://ufl.instructure.com/courses/371493/calendar_events/2462577');
+    events_arr.length = 0;
+});
+
+//Tests that the zoom link is correctly parsed
+test('test event link', () => {
+    events_arr = parseFile(test_file);
     expect(events_arr[3].link).toBe('https://ufl.zoom.us/j/97191683079?pwd=UGJmQzdoeCtXR3psbWNFLzVmekpsZz09');
+    events_arr.length = 0;
+});
+
+//Tests that the assignment is correctly parsed
+test('test assignment link', () => {
+    events_arr = parseFile(test_file);
+    expect(events_arr[0].link).toBe('http://ufl.instructure.com/courses/447867/assignments/5147674');
+    events_arr.length = 0;
+});
+
+//Tests that title is correctly parsed
+test('test title', () => {
+    events_arr = parseFile(test_file);
+    expect(events_arr[0].title).toBe('Chapter 5 End of Chapter Exercises ');
+    events_arr.length = 0;
+});
+
+//Tests that class is correctly parsed
+test('test class', () => {
+    events_arr = parseFile(test_file);
+    expect(events_arr[0].class).toBe('CEN3031 - Intro to SWE');
     events_arr.length = 0;
 });
 
@@ -26,6 +54,14 @@ test('test correct event type assignment', () => {
     expect(events_arr[5].type).toBe('Assignment');
     expect(events_arr[6].type).toBe('Office Hours');
     expect(events_arr[7].type).toBe('Event');
+
+    events_arr.length = 0;
+});
+
+//Tests that the class type is being parsed
+test('test correct class type', () => {
+    events_arr = parseFile(test_file);
+    expect(events_arr[30].type).toBe('Class');
 
     events_arr.length = 0;
 });
