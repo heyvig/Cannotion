@@ -34,7 +34,7 @@ test('test title', () => {
 //Tests that class is correctly parsed
 test('test class', () => {
     events_arr = parseFile(test_file);
-    expect(events_arr[0].class).toBe('CEN3031 - Intro to SWE');
+    expect(events_arr[0].c).toBe('CEN3031 - Intro to SWE');
     events_arr.length = 0;
 });
 
