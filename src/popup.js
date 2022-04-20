@@ -1,9 +1,23 @@
+const notion = require('notion');
+// setSecrets(1, 1);
+
 const selected = document.querySelector('#selected');
 const options = document.querySelectorAll('.option');
 const token = document.querySelector('#token');
 const databaseId = document.querySelector('#databaseId');
 const link = document.querySelector('#link');
 
+// setSecrets(1, 1);
+
+chrome.storage.sync.get('databaseId', function(result) {
+  databaseId.value = result['databaseId'];
+});
+chrome.storage.sync.get('link', function(result) {
+  link.value = result['link'];
+});
+chrome.storage.sync.get('token', function(result) {
+  token.value = result['token'];
+});
 
 // token
 token.addEventListener('change', (event) => {

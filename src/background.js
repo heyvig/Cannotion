@@ -1,3 +1,5 @@
+const { parseFile, parseLink, CalendarEvent} = require('./bundle.js');
+
 //the following function must run every 30 minutes, when refreshed, and when first loaded 
 function getFile(){
   console.log('Get file function called');
