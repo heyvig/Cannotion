@@ -4,6 +4,15 @@ const token = document.querySelector('#token');
 const databaseId = document.querySelector('#databaseId');
 const link = document.querySelector('#link');
 
+chrome.storage.sync.get('databaseId', function(result) {
+  databaseId.value = result['databaseId'];
+});
+chrome.storage.sync.get('link', function(result) {
+  link.value = result['link'];
+});
+chrome.storage.sync.get('token', function(result) {
+  token.value = result['token'];
+});
 
 // token
 token.addEventListener('change', (event) => {

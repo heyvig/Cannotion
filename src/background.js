@@ -1,3 +1,5 @@
+
+
 //the following function must run every 30 minutes, when refreshed, and when first loaded 
 function getFile(){
   console.log('Get file function called');
@@ -6,7 +8,11 @@ function getFile(){
 chrome.webNavigation.onCommitted.addListener((details) => {
   if(["reload", "link", "typed", "generated"].includes(details.transitionType) && details.url.includes("https://ufl.instructure.com")) {
     console.log('webNav');
-    getFile();
+
+    // chrome.storage.sync.get('token', function(result) {
+    //   token.value = result['token'];
+    // });
+    // getFile();
   }
 });
 

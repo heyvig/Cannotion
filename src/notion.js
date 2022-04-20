@@ -52,6 +52,7 @@ function addAllEvents(){
     addItem(item.title, date1);
 });
 }
+
 addAllEvents();
 //module.exports = addAllEvents;
 //2022-03-29T11:00:00.000-04:00
