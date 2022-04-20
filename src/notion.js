@@ -5,9 +5,11 @@ import {CalendarEvent} from './parser.js';
 //import {CalendarEvent} from './parser';
 
 const notion = new Client({ auth: secret });
-
+//this function adds an individual item based on the given data
 async function addItem(titleS, ddate, clasS, typeS) {
   try {
+    //the following creates the page and returns the resulting response
+    //this is used to store all the object IDs that is used to update the notion database
     const response = await notion.pages.create({
       parent: { database_id: database_id },
       properties: {
@@ -68,6 +70,7 @@ async function addItem(titleS, ddate, clasS, typeS) {
   }
 }
 
+//this functions takes the parsed output from the parser and adds all the events
 function addAllEvents(events_arr){
   let ddate = "";
   events_arr.forEach((item, index) => {
@@ -85,6 +88,30 @@ function addAllEvents(events_arr){
     addItem(item.title, date1, item.class, item.type);
   }
 );
+}
+
+//this function removes events that no longer should be in the calendar
+async function removeEvent(id){
+
+
+  const blockId = id;
+
+  const response = await notion.blocks.delete({
+
+    block_id: blockId,
+
+  });
+
+  console.log(response);
+
+
+}
+
+//removes all events
+export async function remAllEvents(evendID){
+  for await (const item of eventID){
+    removeEvent(item)
+  }
 }
 
 //running code
