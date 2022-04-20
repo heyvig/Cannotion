@@ -3,11 +3,6 @@ const empty = require('./0Events');
 const test_file = require('./test_file')
 // let events_arr = [];
 
-//Tests that nothing is returned on parsing an "empty" calendar
-test('test empty calendar', () => {
-    expect(parseFile(empty)).toBe();
-});
-
 //Tests that the zoom link is correctly parsed
 test('test zoom link', () => {
     events_arr = parseFile(test_file);
