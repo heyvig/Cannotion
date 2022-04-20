@@ -19,7 +19,7 @@ class CalendarEvent{
     hour = 0;
     minute = 0;
     
-    class = "";
+    c = "";
     description = "";
     link = "";
 
@@ -35,7 +35,7 @@ class CalendarEvent{
 
     reset(){
         this.title = "";
-        this.class = "";
+        this.c = "";
         this.type = "";
         this.description = ""; //Prob not doable anymore due to incredibly high amounts of gibberish
         this.link = "";
@@ -53,7 +53,8 @@ function parse(dataString, events_arr){
 
     //Create new calendar event
     let newEvent = new CalendarEvent();
-    
+    var index = 0;
+
     const lines = dataString.split('\n').map(function(line){
         if(!(line.includes("</feed>"))){
             
@@ -103,7 +104,7 @@ function parse(dataString, events_arr){
             }
             
             if(line.includes("<name>")){
-                newEvent.class = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
+                newEvent.c = line.substring(line.indexOf(">") + 1, line.lastIndexOf("<"));
             }
 
             if(line.includes("<content type")){
@@ -189,9 +190,10 @@ function parse(dataString, events_arr){
 
             if(line.includes("</entry>")){
                 //PUSH AKA COPY current event (NOT A POINTER) into collection
-                events_arr.push(Object.assign({}, newEvent));
+                events_arr[index] = Object.assign({}, newEvent);
                 //console.log(newEvent.title + " - " + newEvent.class);
                 newEvent.reset();
+                index++;
             }
         }
         else{
@@ -204,10 +206,9 @@ function parse(dataString, events_arr){
 
 function parseFile(file){
     //Create container for events
-    let events_arrF = [];
+    let events_arrF = new Array(160);
 
     events_arrF = parse(file, events_arrF);
-
     // for(const element of events_arrF){
     //     console.log(element.title + " | " + element.class + " | " + element.type);
     //     console.log(element.link);
@@ -223,13 +224,24 @@ function parseFile(file){
 
 function parseLink(link){
     //Create container for events
-    let events_arrL = [];
-    
+    let events_arrL = new Array(160);
+
     //Correcting link file ending
     var newLink = link.substring(0, link.length - 3);
     newLink = newLink.concat(".atom");
     console.log(newLink);
-    request(link, function(error, response, html){
+
+    const headers = {
+        'Accept': '*/*',
+        'User-Agent': 'request',
+    };
+    
+    const options = {
+        url: newLink,
+        headers:  headers
+    };
+    
+    request(options, function(error, response, html){
         if(!error && response.statusCode == 200){
             return parse(html, events_arrL);
         }
