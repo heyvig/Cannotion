@@ -108,7 +108,8 @@ function parse(dataString, events_arr){
 
             if(line.includes("<content type")){
                 if(line.includes("zoom.us/")){
-                    newEvent.link = line.substring(line.indexOf("https://"), line.indexOf("https://") + 33);
+                    var subLine = line.substring(line.indexOf("https://"), line.indexOf("target="));
+                    newEvent.link = subLine.substring(0, subLine.indexOf("\""));
                     
                     if(newEvent.type == "Event"){
                         newEvent.type = "Class";
@@ -225,18 +226,16 @@ function parseLink(link){
     let events_arrL = [];
     
     //Correcting link file ending
-    // var newLink = link.substring(0, link.length - 3);
-    // newLink = newLink.concat(".atom");
-    // console.log(newLink);
+    var newLink = link.substring(0, link.length - 3);
+    newLink = newLink.concat(".atom");
+    console.log(newLink);
     request(link, function(error, response, html){
         if(!error && response.statusCode == 200){
             return parse(html, events_arrL);
-            // console.log(events_arrL);
         }
         else{
             console.log("Error loading page");
         }
-        // console.log(events_arrL[0].title);
     });
 
     // for(element of events_arrL){
@@ -254,7 +253,7 @@ function parseLink(link){
 //parseLink('https://ufl.instructure.com/feeds/calendars/user_BkaffhCJl6Sh6F30F7EJ0RvsAWA8arHizxJ4xMus.ics');
 
 // COMMENT THESE OUT WHEN USING NODE
-module.exports = { parseFile, parseLink };
+module.exports = { parseFile, parseLink, CalendarEvent};
 
 // let events_arr = parseFile(test_file);
 // console.log(events_arr.length);
