@@ -50,11 +50,12 @@ class CalendarEvent{
 }
 
 function parse(dataString, events_arr){
-
+    
     //Create new calendar event
     let newEvent = new CalendarEvent();
     var index = 0;
-
+    
+    //Line by line read of the data string
     const lines = dataString.split('\n').map(function(line){
         if(!(line.includes("</feed>"))){
             
@@ -209,14 +210,6 @@ function parseFile(file){
     let events_arrF = new Array(160);
 
     events_arrF = parse(file, events_arrF);
-    // for(const element of events_arrF){
-    //     console.log(element.title + " | " + element.class + " | " + element.type);
-    //     console.log(element.link);
-    //     console.log("Date: " + element.month + " " + element.day + ", " + element.year);
-    //     console.log("From: " + element.hour + ":" + element.minute);
-    //     console.log("\n");
-    // }
-    // console.log(events_arrF);
 
     if(events_arrF.length > 0)
         return events_arrF;
@@ -249,14 +242,6 @@ function parseLink(link){
             console.log("Error loading page");
         }
     });
-
-    // for(element of events_arrL){
-    //     console.log(element.title + " | " + element.class + " | " + element.type);
-    //     console.log(element.link);
-    //     console.log("Date: " + element.month + " " + element.day + ", " + element.year);
-    //     console.log("From: " + element.hour + ":" + element.minute);
-    //     console.log("\n");
-    // }
 
     if(events_arrL.length > 0)
         return events_arrL;
