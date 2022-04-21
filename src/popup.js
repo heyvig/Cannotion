@@ -1,5 +1,4 @@
 const notion = require('notion');
-// setSecrets(1, 1);
 
 const selected = document.querySelector('#selected');
 const options = document.querySelectorAll('.option');
@@ -7,14 +6,18 @@ const token = document.querySelector('#token');
 const databaseId = document.querySelector('#databaseId');
 const link = document.querySelector('#link');
 
-// setSecrets(1, 1);
 
+// maintaines database id
 chrome.storage.sync.get('databaseId', function(result) {
   databaseId.value = result['databaseId'];
 });
+
+// link
 chrome.storage.sync.get('link', function(result) {
   link.value = result['link'];
 });
+
+// token
 chrome.storage.sync.get('token', function(result) {
   token.value = result['token'];
 });
@@ -28,7 +31,7 @@ token.addEventListener('change', (event) => {
   });
 });
 
-// token
+// database id
 databaseId.addEventListener('change', (event) => {
   chrome.storage.sync.set({'databaseId': event.target.value});
 
@@ -37,7 +40,7 @@ databaseId.addEventListener('change', (event) => {
   });
 });
 
-// token
+// canvas link
 link.addEventListener('change', (event) => {
   chrome.storage.sync.set({'link': event.target.value});
 
@@ -45,8 +48,6 @@ link.addEventListener('change', (event) => {
     selected.innerHTML = `link = ` + result['link'];
   });
 });
-
-
 
 // check boxes
 for(let i = 0; i < options.length; i++)

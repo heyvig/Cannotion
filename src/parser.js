@@ -51,7 +51,7 @@ class CalendarEvent{
 
 //Generic parsing from a string into an array
 function parse(dataString, events_arr){
-
+    
     //Create new calendar event
     let newEvent = new CalendarEvent();
     var index = 0;
@@ -235,11 +235,13 @@ function parseLink(link){
     var newLink = link.substring(0, link.length - 4);
     newLink = newLink.concat(".atom");
 
+
     //Excluding CORS to prevent breakage -Max
     const headers = {
         'Accept': '*/*',
         'User-Agent': 'request',
     };
+
     const options = {
         url: newLink,
         headers:  headers

@@ -1,6 +1,6 @@
 const { parseFile, parseLink } = require('../src/parser.js');
 const empty = require('./0Events');
-const test_file = require('./test_file')
+const test_file = require('./test_file');
 // let events_arr = [];
 
 //Tests that the zoom link is correctly parsed
